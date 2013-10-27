@@ -45,6 +45,9 @@ namespace travelling_salesman
                     x++;
                 }
                 buttonShowDist.Enabled = true;
+                groupBoxSequence.Enabled = true;
+                buttonCalculate.Enabled = true;
+                labelSequenceIntr.Text = "Wprowadz kolejne numery miast, od 0 do " + (cityCount-1).ToString()+" \noddzielone spacjami";
                 strReader.Close();
             }
         }
@@ -59,6 +62,31 @@ namespace travelling_salesman
                 temp += "\n";
             }
             MessageBox.Show(temp, "Macierz odległosci");
+        }
+
+        private void buttonCalculate_Click(object sender, EventArgs e)
+        {
+            int distance = 0;
+            int [] sequence = new int[cityCount+1];
+            string[] temp = textBoxSequence.Text.Split(' ');
+
+            try
+            {
+                for (int i =0; i<(cityCount+1); i++)
+                    sequence[i] = Convert.ToInt32(temp[i]);
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd!\nPrawdopodobnie błędna sekwencja\n"+ex);
+            }
+
+            for (int i = 0; i < (cityCount); i++)
+            {
+                distance += distArray[sequence[i+1], sequence[i]];
+            }
+            textBoxDistance.Text = distance.ToString();
+
         }
     }
 }
